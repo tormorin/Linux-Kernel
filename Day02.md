@@ -2,7 +2,7 @@
 系统调用是操作系统提供给用户态的接口，用户态进程通过系统调用请求操作系统提供的服务。系统调用的实现是操作系统内核的一部分，由内核态的进程执行，并通过系统调用陷入内核，由内核完成系统调用的功能。
 ### 1.进程复制-cpoy_process
 传统的UNIX中用于复制进程的系统调用是fork。但它并不是Linux为此实现的唯一调用，实际上Linux实现了3个。
-![](../Linux-Kernel/image/进程复制.png)<br>
+![](image/进程复制.png)<br>
 - (1)fork是重量级调用，因为它建立了父进程的一个完整副本，然后作为子进程执行。为减少与该调用相关的工作量，Linux使用了写时复制（copy-on-write）技术。<br>
 - (2) vfork类似于fork，但并不创建父进程数据的副本。相反，父子进程之间共享数据。这节省了大量CPU时间（如果一个进程操纵共享数据，则另一个会自动注意到）。<br>
 - (3) clone产生线程，可以对父子进程之间的共享、复制进行精确控制。<br>
@@ -12,7 +12,7 @@
 fork、vfork和clone系统调用的入口点分别是sys_fork、sys_vfork和sys_clone函数。其定义依赖于具体的体系结构，因为在用户空间和内核空间之间传递参数的方法因体系结构而异。<br>
 **【do_fork实现】**
 所有3个fork机制最终都调用kernel/fork.c中的do_fork（一个体系结构无关的函数），其代码流程如图所示。<br>
-![](../Linux-Kernel/image/do_fork.png)<br>
+![](image/do_fork.png)<br>
 以下是fork、vfork、clone的源码：
 ```c
 // kernel/fork.c
