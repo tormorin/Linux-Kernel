@@ -12,7 +12,8 @@
 fork、vfork和clone系统调用的入口点分别是sys_fork、sys_vfork和sys_clone函数。其定义依赖于具体的体系结构，因为在用户空间和内核空间之间传递参数的方法因体系结构而异。<br>
 **【do_fork实现】**
 所有3个fork机制最终都调用kernel/fork.c中的do_fork（一个体系结构无关的函数），其代码流程如图所示。<br>
-- 以下是fork、vfork、clone的源码。
+！[](./do_fork.png)<br>
+以下是fork、vfork、clone的源码：
 ```c
 // kernel/fork.c
 #ifdef __ARCH_WANT_SYS_FORK
